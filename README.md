@@ -203,6 +203,10 @@ upstreams = g:/:ro db:/:ro
 
 ## Or, ncdu
 
+```shell
+$ rclone ncdu db:
+```
+
 ![](4-ncdu.png)
 
 ## Plugin Architectures in Go
