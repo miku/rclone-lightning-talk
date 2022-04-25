@@ -236,7 +236,7 @@ Other:   13.726 GiB
 $ cat README.md | rclone rcat g:/example.md
 ```
 
-* read a remote markdown file with another cute Go tool
+* read a remote markdown file with another [cute Go tool](https://github.com/charmbracelet/glow)
 
 ```shell
 $ glow -p <(rclone cat g:/example.md)
