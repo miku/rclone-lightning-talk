@@ -19,6 +19,7 @@ or on the other side of the world. **The time taken to transfer the changes gave
 plenty of opportunity to think about better ways of transferring files**.
 
 * So dial up and slow network links
+* More on the algorithm: [https://www.cs.tufts.edu/~nr/rsync.html](https://www.cs.tufts.edu/~nr/rsync.html)
 
 An annoyance in the 2010s is the variety of cloud storage providers.
 
