@@ -158,7 +158,47 @@ $ rclone tree g:
 ├── Copy of Most Profitable Hollywood Stories.xlsx
 ...
 
+## Mounting a remote
 
+Mount remote as a filesystem, via [Go FUSE implementation](https://bazil.org/fuse/).
+
+> bazil.org/fuse is a Go library for writing filesystems. It is a from-scratch
+> implementation of the kernel-userspace communication protocol, and does not
+> use the C library from the project called FUSE. bazil.org/fuse embraces Go
+> fully for safety and ease of programming.
+
+```
+$ mkdir ~/g
+$ rclone mount g: ~/g
+```
+
+## Cross-cloud copy
+
+I only have a few remotes setup currently, but let's copy from dropbox ("db")
+to GDrive ("g"), via `copy` subcommand:
+
+```
+$ rclone copy db:iris-data.csv g:iris-data.csv
+```
+
+As rsync, there's a `-P` flag:
+
+```
+$ rclone copy -P db:iris-data.csv g:iris-data.csv
+Transferred:              0 B / 0 B, -, 0 B/s, ETA -
+Checks:                 1 / 1, 100%
+Elapsed time:         2.1s
+```
+
+## Mounting a read-only union
+
+Just to browser across GDrive and dropbox:
+
+```ini
+[u]
+type = union
+upstreams = g:/:ro db:/:ro
+```
 
 ## Plugin Architectures in Go
 
