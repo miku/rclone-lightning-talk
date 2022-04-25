@@ -49,10 +49,10 @@ Finally, temporary rclone server reports: Success.
 * authorize
 * backend
 * bisync, sync
-* cat
+* **cat**
 * completion
 * config
-* copy, copyto, copyurl
+* **copy**, copyto, copyurl
 * cryptcheck, cryptdecode
 * dedupe
 * delete, deletefile, purge, cleanup
@@ -60,11 +60,11 @@ Finally, temporary rclone server reports: Success.
 * gendocs
 * check, checksum, hashsum, md5sum, sha1sum
 * link
-* listremotes
+* **listremotes**
 * **ls**, **lsd**, **lsf**, **lsjson**, **lsl**, size
-* mount
+* **mount**
 * move, moveto
-* ncdu, **tree**
+* **ncdu**, **tree**
 * obscure
 * rc
 * rcat
@@ -199,6 +199,10 @@ Just to browser across GDrive and dropbox:
 type = union
 upstreams = g:/:ro db:/:ro
 ```
+
+## Or, ncdu
+
+![](4-ncdu.png)
 
 ## Plugin Architectures in Go
 
