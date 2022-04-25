@@ -212,12 +212,34 @@ $ rclone ncdu db:
 ## Misc Magic
 
 * autocomplete remote filenames
+* create share links in a second
 
-Create share links:
-
-```
+```shell
 $ rclone link db:iris-data.csv
 https://www.dropbox.com/s/9yr8bze4acjohus/iris-data.csv?dl=0
+```
+
+* show quota
+
+```shell
+$ rclone about g:
+Total:   17 GiB
+Used:    480.332 MiB
+Free:    2.805 GiB
+Trashed: 0 B
+Other:   13.726 GiB
+```
+
+* pipe to remote
+
+```shell
+$ cat README.md | rclone rcat g:/example.md
+```
+
+* read a remote markdown file with another cute Go tool
+
+```shell
+$ glow -p <(rclone cat g:/example.md)
 ```
 
 ## Plugin Architectures in Go
