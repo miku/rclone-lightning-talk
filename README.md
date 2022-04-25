@@ -193,7 +193,7 @@ Elapsed time:         2.1s
 
 ## Mounting a read-only union
 
-Just to browser across GDrive and dropbox:
+Just to browse across GDrive and dropbox, for example:
 
 ```ini
 [u]
@@ -208,6 +208,8 @@ $ rclone ncdu db:
 ```
 
 ![](4-ncdu.png)
+
+Fun fact: The author of ncdu also started [vndb](https://en.wikipedia.org/wiki/The_Visual_Novel_Database), a db for [VNs](https://en.wikipedia.org/wiki/Visual_novel) (digital storytelling).
 
 ## Misc Magic
 
