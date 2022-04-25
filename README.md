@@ -104,16 +104,16 @@ Long listing with `lsl`, e.g.
 $ rclone lsl g:
  41988 2017-11-06 18:33:44.791000000 Copy of Hello, Colaboratory
      8017 2018-11-04 14:10:58.713000000 Colab Notebooks/TutorialLabelBinarizer.ipynb
-    16168 2018-04-05 23:25:48.889000000 Colab Notebooks/Copy of synthetic_features_and_outliers.ipynb
-    16168 2018-04-05 22:44:00.816000000 Colab Notebooks/Copy of synthetic_features_and_outliers.ipynb
-   463917 2018-04-05 22:43:01.778000000 Colab Notebooks/Copy of first_steps_with_tensor_flow.ipynb
-    44636 2018-04-05 20:57:34.492000000 Colab Notebooks/Copy of intro_to_pandas.ipynb
+    16168 2018-04-05 23:25:48.889000000 Colab Notebooks/Copy of synthetic_ ...
+    16168 2018-04-05 22:44:00.816000000 Colab Notebooks/Copy of synthetic_ ...
+   463917 2018-04-05 22:43:01.778000000 Colab Notebooks/Copy of first_step ...
+    44636 2018-04-05 20:57:34.492000000 Colab Notebooks/Copy of intro_to_p ...
     28861 2018-01-15 21:46:50.563000000 Colab Notebooks/lpugtest.ipynb
 ```
 
 Or, conveniently as JSON.
 
-```
+```json
 $ rclone lsjson g: | jq .
 [
   {
