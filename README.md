@@ -61,10 +61,10 @@ Finally, temporary rclone server reports: Success.
 * check, checksum, hashsum, md5sum, sha1sum
 * link
 * listremotes
-* ls, lsd, lsf, lsjson, lsl, size
+* **ls**, **lsd**, **lsf**, **lsjson**, **lsl**, size
 * mount
 * move, moveto
-* ncdu, tree
+* ncdu, **tree**
 * obscure
 * rc
 * rcat
@@ -74,6 +74,90 @@ Finally, temporary rclone server reports: Success.
 * settier
 * test
 * touch
+
+## Example Commands
+
+```shell
+$ rclone listremotes
+g:
+local:
+vault:
+```
+
+List files:
+
+```
+$ rclone ls g:
+    41988 Copy of Hello, Colaboratory
+     8017 Colab Notebooks/TutorialLabelBinarizer.ipynb
+    16168 Colab Notebooks/Copy of synthetic_features_and_outliers.ipynb
+    16168 Colab Notebooks/Copy of synthetic_features_and_outliers.ipynb
+   463917 Colab Notebooks/Copy of first_steps_with_tensor_flow.ipynb
+    44636 Colab Notebooks/Copy of intro_to_pandas.ipynb
+    28861 Colab Notebooks/lpugtest.ipynb
+    ...
+```
+
+Long listing with `lsl`, e.g.
+
+```shell
+$ rclone lsl g:
+ 41988 2017-11-06 18:33:44.791000000 Copy of Hello, Colaboratory
+     8017 2018-11-04 14:10:58.713000000 Colab Notebooks/TutorialLabelBinarizer.ipynb
+    16168 2018-04-05 23:25:48.889000000 Colab Notebooks/Copy of synthetic_features_and_outliers.ipynb
+    16168 2018-04-05 22:44:00.816000000 Colab Notebooks/Copy of synthetic_features_and_outliers.ipynb
+   463917 2018-04-05 22:43:01.778000000 Colab Notebooks/Copy of first_steps_with_tensor_flow.ipynb
+    44636 2018-04-05 20:57:34.492000000 Colab Notebooks/Copy of intro_to_pandas.ipynb
+    28861 2018-01-15 21:46:50.563000000 Colab Notebooks/lpugtest.ipynb
+```
+
+Or, conveniently as JSON.
+
+```
+$ rclone lsjson g: | jq .
+[
+  {
+    "Path": "Colab Notebooks",
+    "Name": "Colab Notebooks",
+    "Size": -1,
+    "MimeType": "inode/directory",
+    "ModTime": "2018-01-09T18:45:05.497Z",
+    "IsDir": true,
+    "ID": "100Mz08s0dQGGfHCMyo0fapFyg9oN-gbs"
+  },
+  {
+    "Path": "Copy of Hello, Colaboratory",
+    "Name": "Copy of Hello, Colaboratory",
+    "Size": 41988,
+    "MimeType": "application/vnd.google.colab",
+    "ModTime": "2017-11-06T17:33:44.791Z",
+    "IsDir": false,
+    "ID": "0BxlhQsr_yVQ4SjM0NDJ2dW1TQ3c"
+  },
+  ...
+
+]
+```
+
+Or a tree view:
+
+```shell
+$ rclone tree g:
+/
+...
+├── CoCo 5_ Ferienwohnungen.ods
+├── CoCo 5_ Ferienwohnungen.xlsx
+├── Colab Notebooks
+│   ├── Copy of first_steps_with_tensor_flow.ipynb
+│   ├── Copy of intro_to_pandas.ipynb
+│   ├── Copy of synthetic_features_and_outliers.ipynb
+│   ├── Copy of synthetic_features_and_outliers.ipynb
+│   ├── TutorialLabelBinarizer.ipynb
+│   └── lpugtest.ipynb
+├── Copy of Hello, Colaboratory
+├── Copy of Most Profitable Hollywood Stories.xlsx
+...
+
 
 
 ## Plugin Architectures in Go
