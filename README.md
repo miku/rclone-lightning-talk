@@ -209,6 +209,17 @@ $ rclone ncdu db:
 
 ![](4-ncdu.png)
 
+## Misc Magic
+
+* autocomplete remote filenames
+
+Create share links:
+
+```
+$ rclone link db:iris-data.csv
+https://www.dropbox.com/s/9yr8bze4acjohus/iris-data.csv?dl=0
+```
+
 ## Plugin Architectures in Go
 
 Go has limited support for hot-loading of Go code, e.g. via
