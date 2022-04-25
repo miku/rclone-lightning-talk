@@ -214,7 +214,9 @@ $ rclone ncdu db:
 
 Fun fact: The author of ncdu also started [vndb](https://en.wikipedia.org/wiki/The_Visual_Novel_Database), a db for [VNs](https://en.wikipedia.org/wiki/Visual_novel) (digital storytelling).
 
-Don't forget: [dust](https://github.com/bootandy/dust), and [alternatives](https://github.com/bootandy/dust#alternatives)
+Don't forget: [dust](https://github.com/bootandy/dust), and
+[alternatives](https://github.com/bootandy/dust#alternatives); btw,
+[ncdu2](https://dev.yorhel.nl/doc/ncdu2) uses [zig](https://ziglang.org/)
 
 ## Misc Magic
 
