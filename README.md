@@ -1,12 +1,12 @@
 # The rsync for the cloud era: Rclone
 
-> Lightning Talk, Leipzig Gophers #26, 2022-04-24 19:00 CEST
+> Lightning Talk, [Leipzig Gophers](https://golangleipzig.space) [#26](https://golangleipzig.space/posts/meetup-26-invitation/), 2022-04-26 19:00 CEST
 
 ## Things past
 
 > This chapter describes the rsync algorithm, an algorithm for the efficient remote up-
 date of data over a high latency, low bandwidth link. -- [Efficient Algorithms for Sorting and
-Synchronization](https://maths-people.anu.edu.au/~brent/pd/Tridgell-thesis.pdf)
+Synchronization](https://maths-people.anu.edu.au/~brent/pd/Tridgell-thesis.pdf) (1999)
 
 A glimpse into how practical software projects originate:
 
@@ -23,14 +23,25 @@ plenty of opportunity to think about better ways of transferring files**.
 An annoyance in the 2010s is the variety of cloud storage providers.
 
 * in [2014](http://web.archive.org/web/20141119184433/http://rclone.org/), rclone supported 6 providers (S3, GCP and GDrive, Dropbox, OpenStack, local)
-* in [2022](...), rclone supports over 40 storage systems
+* in [2022](...), rclone supports over 40 storage systems (e.g. QingStor, Storj, put.io, Koofr, ..., also meta things like Union or Chunker)
 
-But 23 years after rsync, still:
+But 23 years after rsync, rclone still mentions:
 
 > Transfers over **limited bandwidth**; intermittent connections ...
 
 ## Example Usage
 
+Interactive configuration of a remote. Setup remote.
+
+![](1-gcp-screen.png)
+
+Rclone has a bit unusual interactive config, which comes in handy for copy-and-pasting ids, secrets and tokens.
+
+![](2-rclone-interactive-config.png)
+
+Finally, temporary rclone server reports: Success.
+
+![](3-rclone-success.png)
 
 ## Plugin Architectures in Go
 
