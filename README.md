@@ -157,6 +157,7 @@ $ rclone tree g:
 ├── Copy of Hello, Colaboratory
 ├── Copy of Most Profitable Hollywood Stories.xlsx
 ...
+```
 
 ## Mounting a remote
 
@@ -167,7 +168,7 @@ Mount remote as a filesystem, via [Go FUSE implementation](https://bazil.org/fus
 > use the C library from the project called FUSE. bazil.org/fuse embraces Go
 > fully for safety and ease of programming.
 
-```
+```shell
 $ mkdir ~/g
 $ rclone mount g: ~/g
 ```
@@ -177,13 +178,13 @@ $ rclone mount g: ~/g
 I only have a few remotes setup currently, but let's copy from dropbox ("db")
 to GDrive ("g"), via `copy` subcommand:
 
-```
+```shell
 $ rclone copy db:iris-data.csv g:iris-data.csv
 ```
 
 As rsync, there's a `-P` flag:
 
-```
+```shell
 $ rclone copy -P db:iris-data.csv g:iris-data.csv
 Transferred:              0 B / 0 B, -, 0 B/s, ETA -
 Checks:                 1 / 1, 100%
