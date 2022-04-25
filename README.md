@@ -60,7 +60,7 @@ Finally, temporary rclone server reports: Success.
 * genautocomplete
 * gendocs
 * check, checksum, hashsum, md5sum, sha1sum
-* link
+* **link**
 * **listremotes**
 * **ls**, **lsd**, **lsf**, **lsjson**, **lsl**, size
 * **mount**
@@ -68,7 +68,7 @@ Finally, temporary rclone server reports: Success.
 * **ncdu**, **tree**
 * obscure
 * rc
-* rcat
+* **rcat**
 * rcd
 * mkdir, rmdir, rmdirs
 * serve
@@ -80,8 +80,10 @@ Finally, temporary rclone server reports: Success.
 
 ```shell
 $ rclone listremotes
+db:
 g:
 local:
+u:
 vault:
 ```
 
@@ -103,7 +105,7 @@ Long listing with `lsl`, e.g.
 
 ```shell
 $ rclone lsl g:
- 41988 2017-11-06 18:33:44.791000000 Copy of Hello, Colaboratory
+    41988 2017-11-06 18:33:44.791000000 Copy of Hello, Colaboratory
      8017 2018-11-04 14:10:58.713000000 Colab Notebooks/TutorialLabelBinarizer.ipynb
     16168 2018-04-05 23:25:48.889000000 Colab Notebooks/Copy of synthetic_ ...
     16168 2018-04-05 22:44:00.816000000 Colab Notebooks/Copy of synthetic_ ...
@@ -140,7 +142,7 @@ $ rclone lsjson g: | jq .
 ]
 ```
 
-Or a tree view:
+Or a [tree](http://mama.indstate.edu/users/ice/tree/) view:
 
 ```shell
 $ rclone tree g:
@@ -211,6 +213,8 @@ $ rclone ncdu db:
 ![](4-ncdu.png)
 
 Fun fact: The author of ncdu also started [vndb](https://en.wikipedia.org/wiki/The_Visual_Novel_Database), a db for [VNs](https://en.wikipedia.org/wiki/Visual_novel) (digital storytelling).
+
+Don't forget: [dust](https://github.com/bootandy/dust), and [alternatives](https://github.com/bootandy/dust#alternatives)
 
 ## Misc Magic
 
