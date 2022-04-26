@@ -377,7 +377,7 @@ $ tree -d # abridged
 └── vfs
 
 400 directories
-``
+```
 
 ## Writing a new backend
 
@@ -451,17 +451,17 @@ subpackage.
 Example for [CallJSON](https://pkg.go.dev/github.com/rclone/rclone/lib/rest#Client.CallJSON):
 
 ```go
-    opts := &rest.Opts{
-        Method:     "GET",
-        Path:       "/users/",
-        Parameters: vs,
-    }
-    var doc UserList
-    resp, err := api.srv.CallJSON(context.Background(), opts, nil, &doc)
-    if err != nil {
-        return nil, err
-    }
-    defer resp.Body.Close()
+opts := &rest.Opts{
+    Method:     "GET",
+    Path:       "/users/",
+    Parameters: vs,
+}
+var doc UserList
+resp, err := api.srv.CallJSON(context.Background(), opts, nil, &doc)
+if err != nil {
+    return nil, err
+}
+defer resp.Body.Close()
 ```
 
 
