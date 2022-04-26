@@ -251,6 +251,19 @@ $ cat README.md | rclone rcat g:/example.md
 $ glow -p <(rclone cat g:/example.md)
 ```
 
+* serve a remote through a web interface
+
+```shell
+$ rclone serve http
+```
+
+![](6-http.png)
+
+Beside HTTP, there's webdav, sftp, ...
+
+![](5-sftp.png)
+
+
 ## Plugin Architectures in Go
 
 Go has limited support for hot-loading of Go code, e.g. via
@@ -261,13 +274,283 @@ over RPC](https://github.com/hashicorp/go-plugin) (which only appeared in
 Rclone needs backends be in the source tree and compiled into the binary to
 work. Not great, not terrible.
 
+```shell
+$ tree -d # abridged
+.
+├── backend
+│   ├── alias
+│   │   └── test
+│   │       └── files
+│   │           ├── four
+│   │           │   └── five
+│   │           └── three
+│   ├── all
+│   ├── amazonclouddrive
+│   ├── azureblob
+│   ├── b2
+│   │   └── api
+│   ├── box
+│   │   └── api
+│   ├── cache
+│   ├── chunker
+│   ├── compress
+│   ├── crypt
+│   │   └── pkcs7
+│   ├── drive
+│   │   └── test
+│   │       └── files
+│   ├── dropbox
+│   │   └── dbhash
+│   ├── fichier
+│   ├── filefabric
+│   │   └── api
+│   ├── ftp
+│   ├── googlecloudstorage
+│   ├── googlephotos
+│   │   ├── api
+│   │   └── testfiles
+│   ├── hasher
+│   ├── hdfs
+│   ├── http
+│   │   └── test
+│   │       ├── files
+│   │       │   ├── four
+│   │       │   └── three
+│   │       └── index_files
+│   ├── hubic
+│   ├── jottacloud
+│   │   └── api
+│   ├── koofr
+│   ├── local
+│   ├── mailru
+│   │   ├── api
+│   │   └── mrhash
+│   ├── mega
+│   ├── memory
+│   ├── netstorage
+│   ├── onedrive
+│   │   ├── api
+│   │   └── quickxorhash
+│   ├── opendrive
+│   ├── pcloud
+│   │   └── api
+│   ├── premiumizeme
+│   │   └── api
+│   ├── putio
+│   ├── qingstor
+│   ├── s3
+│   ├── seafile
+│   │   └── api
+│   ├── sftp
+│   ├── sharefile
+│   │   └── api
+│   ├── sia
+│   │   └── api
+│   ├── storj
+│   ├── sugarsync
+│   │   └── api
+│   ├── swift
+│   ├── union
+│   │   ├── policy
+│   │   └── upstream
+│   ├── uptobox
+│   │   └── api
+│   ├── vault
+│   │   └── attic
+│   ├── webdav
+│   │   ├── api
+│   │   └── odrvcookie
+│   ├── yandex
+│   │   └── api
+│   └── zoho
+│       └── api
+├── bin
+├── cmd
+├── cmdtest
+├── contrib
+├── docs
+├── fs
+├── fstest
+├── graphics
+├── lib
+├── librclone
+└── vfs
+
+400 directories
+``
+
 ## Writing a new backend
 
 Currently, I'm writing an Rclone backend for a digital preservation system
-(DPS), which we are developing at the Archive. The DPS provides an API and we
-can map a directory structure to a set of API calls to present a filesystem
-like interface.
+(DPS). The DPS provides an API and we can map a directory structure to a set of
+API calls to present a filesystem like interface.
 
 ## Interface architecture
+
+Color by numbers, filling out interfaces for filesystem, basic operations like
+listing and uploading data, objects and directories.
+
+```
+Fs
+  Info
+    Name() string
+    Root() string
+    String() string
+    Precision() time.Duration
+    Hashes ...
+    Features() ...
+  List
+  NewObject(..., remote string) (Object, error)
+  Put(..., in io.Reader, src ObjectInfo, options ...OpenOptions) (Object, error)
+  Mkdir(..., dir string) ...
+  Rmdir(..., dir string) ...
+
+Object
+  ObjectInfo
+    DirEntry
+      String() string
+      Remote() string
+      ModTime() ...
+      Size() ...
+    Fs() Info
+    Hash(...)
+    Storable() bool
+  SetModTime(...) ...
+  Open(...) ...
+  Update(...)...
+  Remove(...) ...
+
+Directory
+  DirEntry
+    String() string
+    Remote() string
+    ModTime() ...
+    Size() ...
+ Items() int64
+ ID() string
+
+FullObject
+  Object
+  MimeTypes
+  IDer
+  ObjectUnWrapper
+  GetTierer
+  SetTierer
+```
+
+## Helpers: REST
+
+Most providers will use some sort of HTTP API and rclone provides support for
+that in a [rest](https://pkg.go.dev/github.com/rclone/rclone/lib/rest)
+subpackage.
+
+* session handling
+* request options, [rest.Opts](https://pkg.go.dev/github.com/rclone/rclone/lib/rest#Opts)
+* marshalling and unmarshalling on the fly
+
+Example for [CallJSON](https://pkg.go.dev/github.com/rclone/rclone/lib/rest#Client.CallJSON):
+
+```go
+    opts := &rest.Opts{
+        Method:     "GET",
+        Path:       "/users/",
+        Parameters: vs,
+    }
+    var doc UserList
+    resp, err := api.srv.CallJSON(context.Background(), opts, nil, &doc)
+    if err != nil {
+        return nil, err
+    }
+    defer resp.Body.Close()
+```
+
+
+## Helpers: Config
+
+A new FS can be registered in an `init` function, specifies options to be
+passed from the command line.
+
+```go
+func init() {
+    fs.Register(&fs.RegInfo{
+        Name:        "vault",
+        Description: "Internet Archive Vault Digital Preservation System",
+        NewFs:       NewFs,
+        Options: []fs.Option{
+            {
+                Name:    "username",
+                Help:    "vault username (needs to belong to an organization to be usable)",
+                Default: "",
+            },
+            {
+                Name:    "url",
+                Help:    "vault API URL",
+                Default: "http://localhost:8000/api",
+            },
+            {
+                Name:    "debug",
+                Help:    "increase output for debugging",
+                Default: false,
+            },
+        },
+    })
+}
+```
+
+There is a `NewFs` contructor, which is a function type:
+
+```go
+// RegInfo provides information about a filesystem
+type RegInfo struct {
+    ...
+    NewFs func(ctx context.Context, name string, root string, config configmap.Mapper) (Fs, error) `json:"-"`
+    ...
+}
+```
+
+And configmapper helps to move data from a flags or config (ini) file into a struct.
+
+```go
+func NewFs(ctx context.Context, name, root string, cm configmap.Mapper) (fs.Fs, error) {
+    opts := new(Options)
+    err := configstruct.Set(cm, opts)
+    if err != nil {
+        return nil, err
+    }
+    if !opts.Debug {
+        log.SetOutput(ioutil.Discard)
+    }
+    api := &Api{
+        endpoint: opts.Endpoint,
+        username: opts.Username,
+        password: opts.Password,
+        srv:      rest.NewClient(fshttp.NewClient(ctx)).SetRoot(opts.Endpoint),
+    }
+    if err := api.Login(); err != nil {
+        return nil, err
+    }
+    return &Fs{
+        name: name,
+        root: root,
+        opt:  *opts,
+        api:  api,
+    }, nil
+}
+```
+
+## Challenges
+
+* depending on the backend, you will want caching (like directory entries, etc)
+* need to find some sensible mapping, if remote is not just files and folders
+
+## Wrap-Up
+
+Never click through a cloud storage web interface again, run:
+
+```
+$ rclone config
+```
+
+once for your storage system(s) et voilá!
 
 
