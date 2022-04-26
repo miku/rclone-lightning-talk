@@ -497,13 +497,43 @@ func init() {
 }
 ```
 
+Also, there is one config file under `~/.config/rclone/rclone.conf` which contains configured remotes:
+
+```ini
+[vault]
+type = vault
+username = admin
+password = admin
+endpoint = http://localhost:8000/api
+
+[local]
+type = local
+
+[g]
+type = drive
+client_id = 247830 ....
+client_secret = GOCX ...
+scope = drive
+token = {"access_token":" ...
+team_drive =
+
+[db]
+type = dropbox
+token = {"access_token":" ...
+
+[u]
+type = union
+upstreams = g:/:ro db:/:ro
+```
+
 There is a `NewFs` contructor, which is a function type:
 
 ```go
 // RegInfo provides information about a filesystem
 type RegInfo struct {
     ...
-    NewFs func(ctx context.Context, name string, root string, config configmap.Mapper) (Fs, error) `json:"-"`
+    NewFs func(ctx context.Context, name string, root string,
+        config configmap.Mapper) (Fs, error) `json:"-"`
     ...
 }
 ```
@@ -552,5 +582,4 @@ $ rclone config
 ```
 
 once for your storage system(s) et voilá!
-
 
