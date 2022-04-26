@@ -52,7 +52,7 @@ Finally, temporary rclone server reports: Success.
 * bisync, sync
 * **cat**
 * completion
-* config
+* **config**
 * **copy**, copyto, copyurl
 * cryptcheck, cryptdecode
 * dedupe
@@ -71,7 +71,7 @@ Finally, temporary rclone server reports: Success.
 * **rcat**
 * rcd
 * mkdir, rmdir, rmdirs
-* serve
+* **serve**
 * settier
 * test
 * touch
